@@ -1,0 +1,26 @@
+#Trimming adapters using Trimmomatic function
+#Unix script to automate trimming Raw RNA Seq data
+$module load ~/Trimmomatic-0.39
+$cd files #Change directory to path where RNA Seq data is downloaded
+$mkdir trim RAW #Create directory for trimmed reads and RAW reads
+$pwd #To check path of working directory
+#This is for Paired End Reads
+$ for infile in *fastq.gz; 
+ do 
+input1=${infile%_*z}_1.fastq.gz;
+input2=${infile%_*z}_2.fastq.gz; 
+ path= ~/files/trim/; #Destination path where you need the trimmed file
+output1=$path${infile%_*z}_1_paired.fastq.gz;
+output2=$path${infile%_*z}_1_unpaired.fastq.gz;
+output3=$path${infile%_*z}_2_paired.fastq.gz;
+output4=$path${infile%_*z}_2_unpaired.fastq.gz;
+if [ $infile == $input2 ]   #This will skip the second read file of a sample.
+then mv ~/files/$infile ~/files/RAW #Move the Raw data to RAW folder.
+continue
+else
+echo $infile
+java -jar ~/apps/Trimmomatic-0.32/trimmomatic-0.32.jar PE -threads 16 $input1 $input2 $output1 $output2 $output3 $output4 ILLUMINACLIP: ~/apps/Trimmomatic-0.32/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36;
+#While using Trimmomatic function ensure that you insert the complete path to jar file and adapters.#Use adapters which is used in the RNA Seq experiment.
+mv /home/alnu6/files/$infile /home/alnu6/files/RAW #Moving RAW file to a different folder helps to continue from where the script is terminated. 
+fi;
+done;
