@@ -4,7 +4,7 @@
 library(HelpersMG) #for wget function
 links<-read.delim(file="ftplinks.txt",sep = ";",header=FALSE,col.names = c("1","2")) #For paired end reads
 links<-read.delim(file="ftplinks.txt",sep = ";",header=FALSE,col.names = c("1")) #For single end reads
-links[] <- lapply(links, function(x) paste("ftp://", x, sep="")) #Use only when the links dont have complete address
+links[] <- lapply(links, function(x) paste("ftp://", x, sep="")) #Use only when the links dont have complete web address
 for (i in 1:nrow(links)){
   wget(links[i,1])
   wget(links[i,2])
