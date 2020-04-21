@@ -1,0 +1,9 @@
+#module load ~/FastQC
+mkdir  ~/fastqc
+mv ~data/*fastq.gz ~/fastqc #Move the reads to fastqc folder
+cd ~/fastqc
+for infile in *fastq.gz
+do
+fastqc -t 4 $infile
+mv ${infile} ~/data #Move the reads back to original folder
+done
