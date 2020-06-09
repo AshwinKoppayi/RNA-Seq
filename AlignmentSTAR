@@ -1,0 +1,33 @@
+#To align trimmed paired end reads to reference genome using STAR alignment and to obtain the count data using HTSeq
+module load apps/STAR
+module load apps/HTSeq
+module load compilers/python-2.7.6-intel
+module load tools/numpy-1.8.1-intel-python2.7.6
+
+for set in *fastq.gz
+do
+if [ $set == ${set%_2*z}_2_paired.fastq.gz ]
+then 
+continue
+else
+
+echo "Loop else"
+
+mkdir ${set%_1*z}
+sample=${set%_1*z}
+echo $sample
+path1=~/files/trim/align/${set%_1*z}
+cp ~/files/trim/align/${sample}_1_paired.fastq.gz ~/files/trim/align/${sample}
+cp ~/files/trim/align/${sample}_2_paired.fastq.gz ~/files/trim/align/${sample}
+cd $sample
+gunzip $path1/${sample}_1_paired.fastq.gz 
+gunzip $path1/${sample}_2_paired.fastq.gz 
+input1=${sample}_1_paired.fastq
+input2=${sample}_2_paired.fastq
+STAR --genomeDir ~/files/genome --runThreadN 16 --readFilesIn $path1/$input1 $path1/$input2 --outFileNamePrefix ${sample}
+htseq-count -r pos -s yes ${sample}*.sam ~/files/genome/Homo_sapiens.GRCh38.99.gtf > ${sample}.txt
+
+cd
+cd ~/files/trim/align
+fi;
+done
