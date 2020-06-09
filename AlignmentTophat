@@ -1,0 +1,37 @@
+#Align reads to reference genome using Tophat
+module load apps/tophat
+module load apps/bowtie
+module load apps/boost
+module load tools/Boost-1.58.0-intel
+module load lib/boost-1.69.0-gcc
+
+#Download index file of reference genome from https://ccb.jhu.edu/software/tophat/igenomes.shtml
+#Alignment of paired trimmed reads to index files
+
+for set in *_paired.fastq.gz
+do
+if [ $set == ${set%_2*z}_2_paired.fastq.gz ]
+then 
+echo "Loop if" 
+echo $set
+continue
+else
+
+
+echo "Loop else"
+mkdir ${set%_1*z}
+sample=${set%_1*z}
+echo $sample
+gunzip ${sample}_1_paired.fastq.gz 
+gunzip ${sample}_2_paired.fastq.gz 
+input1=${sample}_1_paired.fastq
+input2=${sample}_2_paired.fastq
+
+
+tophat -o ~/files/trim/$sample -p 16 ~/files/genome/Homo_sapiens.GRCh38.dna_sm.primary_assembly.bowtie_index \
+~/files/trim/$input1 \
+~/files/trim/$input2 \
+
+fi;
+done
+
