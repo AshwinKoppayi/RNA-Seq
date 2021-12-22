@@ -1,3 +1,4 @@
+#!/bin/bash
 #To align trimmed paired end reads to reference genome using STAR alignment and to obtain the count data using HTSeq
 module load apps/STAR
 module load apps/HTSeq
