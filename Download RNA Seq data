@@ -1,4 +1,4 @@
-!#/Rscript.R
+#!/Rscript.R
 #Download the ftp links to the RNA Seq data from database(EBI,NCBI)
 #For ease Copy the links to a seperate text files(ftplinks) if there are many files 
 #Create a Rscript to download this files as follows
