@@ -1,3 +1,4 @@
+#!/bin/bash
 #Align reads to reference genome using Tophat
 module load apps/tophat
 module load apps/bowtie
