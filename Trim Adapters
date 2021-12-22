@@ -1,3 +1,4 @@
+#!/bin/bash
 #Trimming adapters using Trimmomatic function
 #Unix script to automate trimming Raw RNA Seq data
 $module load ~/Trimmomatic-0.39
