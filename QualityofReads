@@ -1,3 +1,4 @@
+#!/bin/bash
 #module load ~/FastQC
 mkdir  ~/fastqc
 mv ~data/*fastq.gz ~/fastqc #Move the reads to fastqc folder
